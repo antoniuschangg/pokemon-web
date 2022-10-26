@@ -1,6 +1,6 @@
 {
-  "name": "<Application Name>",
-  "short_name": "<Application Short Name>",
+  "name": "Pokedex",
+  "short_name": "Pokedex",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
