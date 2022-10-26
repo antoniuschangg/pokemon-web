@@ -54,7 +54,7 @@ export default function PokemonFilters({ onApply, disabled }) {
         <h3>Select Types</h3>
         <div className="flex flex-row flex-wrap">
           {types.map(type => (
-            <label className="block" style={{ width: '33%' }}>
+            <label key={type.name} className="block" style={{ width: '33%' }}>
               <input className="mr-2" name="types[]" type="checkbox" value={type.name} />
               {type.name}
             </label>
@@ -64,7 +64,7 @@ export default function PokemonFilters({ onApply, disabled }) {
         <h3 className="mt-5">Select Generations</h3>
         <div className="flex flex-row flex-wrap">
           {generations.map(generation => (
-            <label className="block" style={{ width: '50%' }}>
+            <label key={generation.name} className="block" style={{ width: '50%' }}>
               <input className="mr-2" name="generations[]" type="checkbox" value={generation.name} />
               {generation.name}
             </label>

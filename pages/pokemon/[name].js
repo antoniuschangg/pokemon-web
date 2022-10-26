@@ -43,7 +43,7 @@ const PokemonDetailPage = () => {
         <h2 className="text-2xl mt-5">Stats</h2>
         <ul>
           {pokemon.stats.map(stat => (
-            <li>
+            <li key={stat.stat.name}>
               <div className="flex flex-row justify-between items-center">
                 <div>{stat.stat.name}</div>
                 <div>{stat.base_stat}</div>

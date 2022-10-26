@@ -53,7 +53,7 @@ const ComparePage = () => {
             <h3 className="text-xl mt-5">Stats</h3>
             <ul>
               {firstPokemon.stats.map(stat => (
-                <li>
+                <li key={stat.stat.name}>
                   <div className="flex flex-row justify-between items-center">
                     <div>{stat.stat.name}</div>
                     <div>{stat.base_stat}</div>
@@ -80,7 +80,7 @@ const ComparePage = () => {
             <h3 className="text-xl mt-5">Stats</h3>
             <ul>
               {secondPokemon.stats.map(stat => (
-                <li>
+                <li key={stat.stat.name}>
                   <div className="flex flex-row justify-between items-center">
                     <div>{stat.stat.name}</div>
                     <div>{stat.base_stat}</div>
