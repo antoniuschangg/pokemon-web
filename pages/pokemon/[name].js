@@ -1,26 +1,8 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { getPokemonDetail } from "../../services/pokemon";
+import { getPokemonDetail, getPokemonList } from "../../services/pokemon";
 
-const PokemonDetailPage = () => {
+export default function PokemonDetailPage({ pokemon }) {
   const router = useRouter();
-  const { name } = router.query;
-  const [pokemon, setPokemon] = useState(null);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    getPokemonDetail(name, { signal: controller.signal })
-      .then(res => res.json())
-      .then(data => {
-        setPokemon(data);
-      })
-      .catch(err => console.log(err.message))
-
-    return () => {
-      controller.abort();
-    }
-  }, [name])
 
   if(!pokemon) return <div>Loading...</div>;
 
@@ -59,4 +41,36 @@ const PokemonDetailPage = () => {
   )
 }
 
-export default PokemonDetailPage;
+export async function getStaticProps({ params }) {
+  const name = params.name;
+
+  let data = await getPokemonDetail(name)
+  data = await data.json();
+
+  return {
+    props: {
+      pokemon: data,
+    },
+    revalidate: 30
+  }
+}
+
+export async function getStaticPaths() {
+  let pokemons = await getPokemonList({ limit: 100000 });
+  pokemons = await pokemons.json();
+  
+  let paths = [];
+
+  pokemons.results.forEach((item) => {
+    paths.push({
+      params: {
+        name: item.name,
+      },
+    });
+  });
+
+  return {
+    paths,
+    fallback: true,
+  };
+}
