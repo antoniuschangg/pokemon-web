@@ -78,27 +78,31 @@ export default function Home() {
       return;
     }
 
-    const generationsResponse = await Promise.all(
-      generations.map((name) => getPokemonGenerationDetail(name, { signal: controller.current.signal }))
-    );
-
     const typesSet = {};
+    const pokemonsSet = {};
 
-    for(let i = 0; i < generationsResponse.length; i++) {
-      const data = await generationsResponse[i].json();
-
-      data.types.forEach(type => {
-        if(types.includes(type.name)) {
-          typesSet[type.name] = type
-        }
-      });
+    if (generations.length) {
+      const generationsResponse = await Promise.all(
+        generations.map((name) => getPokemonGenerationDetail(name, { signal: controller.current.signal }))
+      );
+  
+  
+      for(let i = 0; i < generationsResponse.length; i++) {
+        const data = await generationsResponse[i].json();
+  
+        data.types.forEach(type => {
+          if(types.length === 0 || types.includes(type.name)) {
+            typesSet[type.name] = type
+          }
+        });
+      }
+    } else {
+      types.forEach(item => typesSet[item] = ({ name: item }))
     }
 
     const typesResponses = await Promise.all(
       Object.keys(typesSet).map((name) => getPokemonTypeDetail(name, { signal: controller.current.signal }))
     );
-
-    let pokemonsSet = {};
 
     for(let i = 0; i < typesResponses.length; i++) {
       const data = await typesResponses[i].json();
